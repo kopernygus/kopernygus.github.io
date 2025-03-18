@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopernyg.us - Forums</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.07;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #1a1a1a;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+            animation: lineGlow 5s infinite;
+        }
+
+        .logo {
+            font-size: 2rem;
+            letter-spacing: 6px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #4CAF50;
+            text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        }
+
+        .user-panel {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background-color: #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4CAF50;
+            font-weight: bold;
+            border: 2px solid #4CAF50;
+        }
+
+        .username {
+            font-weight: bold;
+            position: relative;
+        }
+
+        .username::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #4CAF50;
+        }
+
+        nav {
+            background-color: #111;
+            padding: 10px 0;
+            margin-bottom: 25px;
+            border-radius: 5px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            padding: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ccc;
+            padding: 5px 10px;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        .nav-links a:hover {
+            background-color: #1a1a1a;
+            color: #4CAF50;
+        }
+
+        .nav-links a.active {
+            background-color: #1a1a1a;
+            color: #4CAF50;
+            border-left: 2px solid #4CAF50;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 25px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 10px 15px;
+            background-color: #111;
+            border: 1px solid #222;
+            color: #e0e0e0;
+            border-radius: 5px 0 0 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: #000;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #45a049;
+        }
+
+        .forum-container {
+            margin-bottom: 30px;
+        }
+
+        .forum-category {
+            background-color: #111;
+            padding: 12px 15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            color: #4CAF50;
+            letter-spacing: 1px;
+            border: 1px solid #222;
+            border-bottom: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-stats {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: normal;
+        }
+
+        .forum-list {
+            border: 1px solid #222;
+            border-radius: 0 0 5px 5px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .forum-item {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #1a1a1a;
+            background-color: #0f0f0f;
+            transition: background-color 0.3s;
+        }
+
+        .forum-item:last-child {
+            border-bottom: none;
+        }
+
+        .forum-item:hover {
+            background-color: #151515;
+        }
+
+        .forum-icon {
+            min-width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #4CAF50;
+            font-size: 1.2rem;
+        }
+
+        .forum-info {
+            flex: 1;
+        }
+
+        .forum-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            text-decoration: none;
+            color: #e0e0e0;
+        }
+
+        .forum-title:hover {
+            color: #4CAF50;
+        }
+
+        .forum-description {
+            font-size: 0.9rem;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .subforum-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+
+        .subforum {
+            text-decoration: none;
+            color: #888;
+            padding: 2px 8px;
+            background-color: #1a1a1a;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .subforum:hover {
+            background-color: #222;
+            color: #4CAF50;
+        }
+
+        .forum-stats {
+            min-width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #888;
+            margin: 0 10px;
+        }
+
+        .forum-last-post {
+            min-width: 200px;
+            font-size: 0.85rem;
+            color: #888;
+            padding-left: 15px;
+            border-left: 1px solid #1a1a1a;
+        }
+
+        .last-post-title {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .last-post-title:hover {
+            color: #4CAF50;
+        }
+
+        .last-post-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .last-post-user {
+            color: #4CAF50;
+        }
+
+        .online-users {
+            background-color: #111;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            border: 1px solid #222;
+        }
+
+        .online-users-header {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 5px;
+        }
+
+        .user-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .user {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .user:hover {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+
+        .user.admin {
+            color: #ff5722;
+        }
+
+        .user.mod {
+            color: #2196f3;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 2px solid #1a1a1a;
+            color: #888;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+            animation: lineGlow 5s infinite alternate-reverse;
+        }
+
+        .quick-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .stats-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .notification-badge {
+            background-color: #4CAF50;
+            color: #000;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .particle {
+            position: fixed;
+            background-color: rgba(76, 175, 80, 0.3);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @keyframes lineGlow {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .forum-item {
+                flex-direction: column;
+            }
+
+            .forum-icon {
+                display: none;
+            }
+
+            .forum-stats, .forum-last-post {
+                min-width: auto;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                border-left: none;
+                padding-left: 0;
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid #1a1a1a;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg" id="matrix"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">Kopernyg.us</div>
+            <div class="user-panel">
+                <a href="#" title="Messages" style="color:#ccc; text-decoration:none;">
+                    <span>📬</span>
+                    <span class="notification-badge">3</span>
+                </a>
+                <a href="#" title="Notifications" style="color:#ccc; text-decoration:none;">
+                    <span>🔔</span>
+                    <span class="notification-badge">7</span>
+                </a>
+                <div class="username">NightCode</div>
+                <div class="avatar">NC</div>
+            </div>
+        </header>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Forums</a></li>
+                <li><a href="#">Recent Activity</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">Members</a></li>
+                <li><a href="#">Chat</a></li>
+                <li><a href="#">Wiki</a></li>
+            </ul>
+        </nav>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search forums...">
+            <button>SEARCH</button>
+        </div>
+
+        <div class="forum-container">
+            <!-- Cybersecurity Category -->
+            <div class="forum-category">
+                <span>CYBERSECURITY</span>
+                <span class="category-stats">324 threads • 2,187 posts</span>
+            </div>
+            <div class="forum-list">
+                <div class="forum-item">
+                    <div class="forum-icon">🔒</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Network Security & Pentesting</a>
+                        <div class="forum-description">Discuss network security, penetration testing techniques, and defensive strategies.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Network Scanning</a>
+                            <a href="#" class="subforum">Vulnerability Assessment</a>
+                            <a href="#" class="subforum">Wireless Security</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>87 threads</div>
+                        <div>543 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Vulnerability in OpenSSH 9.5p1 discovered</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">SecurityWiz</span>
+                            <span>Today, 14:37</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forum-item">
+                    <div class="forum-icon">🛡️</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Malware Analysis & Reverse Engineering</a>
+                        <div class="forum-description">Share techniques and tools for analyzing malicious software and understanding code.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Static Analysis</a>
+                            <a href="#" class="subforum">Dynamic Analysis</a>
+                            <a href="#" class="subforum">Disassembly</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>121 threads</div>
+                        <div>876 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Deobfuscating JavaScript malware - step by step</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">ByteBreaker</span>
+                            <span>Yesterday, 22:15</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forum-item">
+                    <div class="forum-icon">🔑</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Cryptography & Privacy</a>
+                        <div class="forum-description">Encryption algorithms, secure communications, and privacy-enhancing technologies.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Encryption</a>
+                            <a href="#" class="subforum">VPNs & Proxies</a>
+                            <a href="#" class="subforum">Zero-Knowledge</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>62 threads</div>
+                        <div>408 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Post-quantum cryptography implementation challenges</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">CryptoKnight</span>
+                            <span>Mar 16, 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programming Category -->
+            <div class="forum-category">
+                <span>PROGRAMMING & DEVELOPMENT</span>
+                <span class="category-stats">468 threads • 3,754 posts</span>
+            </div>
+            <div class="forum-list">
+                <div class="forum-item">
+                    <div class="forum-icon">💻</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Low-Level Programming</a>
+                        <div class="forum-description">Assembly, C/C++, memory management, and operating system internals.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Assembly</a>
+                            <a href="#" class="subforum">C/C++</a>
+                            <a href="#" class="subforum">Memory Management</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>134 threads</div>
+                        <div>957 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Optimizing memory usage in embedded systems</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">KernelGuru</span>
+                            <span>Today, 09:21</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forum-item">
+                    <div class="forum-icon">🐍</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Scripting & Automation</a>
+                        <div class="forum-description">Python, Bash, PowerShell, and automation tools for security tasks.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Python</a>
+                            <a href="#" class="subforum">Shell Scripting</a>
+                            <a href="#" class="subforum">Automation Tools</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>187 threads</div>
+                        <div>1,423 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Creating a network monitoring system with Python</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">PythonMaster</span>
+                            <span>Yesterday, 16:42</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forum-item">
+                    <div class="forum-icon">⚙️</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Exploits & Tool Development</a>
+                        <div class="forum-description">Creating security tools, exploit development, and proof-of-concept code.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Exploit Dev</a>
+                            <a href="#" class="subforum">Fuzzing</a>
+                            <a href="#" class="subforum">Tool Creation</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>89 threads</div>
+                        <div>674 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Building a better port scanner - architecture and design</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">CodeCrafter</span>
+                            <span>Mar 15, 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Underground Category -->
+            <div class="forum-category">
+                <span>UNDERGROUND & ALTERNATIVE</span>
+                <span class="category-stats">251 threads • 1,932 posts</span>
+            </div>
+            <div class="forum-list">
+                <div class="forum-item">
+                    <div class="forum-icon">🌐</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Alternative Networks</a>
+                        <div class="forum-description">Discussion of Tor, I2P, Freenet, mesh networks, and alternative internet.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Tor</a>
+                            <a href="#" class="subforum">I2P</a>
+                            <a href="#" class="subforum">Mesh Networks</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>97 threads</div>
+                        <div>743 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Building your own mesh network - hardware guide</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">MeshMaster</span>
+                            <span>Today, 11:09</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forum-item">
+                    <div class="forum-icon">💰</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">Cryptocurrency & Blockchain</a>
+                        <div class="forum-description">Cryptocurrencies, blockchain technology, smart contracts, and decentralized apps.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">Blockchain Tech</a>
+                            <a href="#" class="subforum">Privacy Coins</a>
+                            <a href="#" class="subforum">Smart Contracts</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>84 threads</div>
+                        <div>651 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Zero-knowledge proofs in blockchain applications</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">BlockchainDev</span>
+                            <span>Yesterday, 08:53</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forum-item">
+                    <div class="forum-icon">🔍</div>
+                    <div class="forum-info">
+                        <a href="#" class="forum-title">OSINT & Digital Privacy</a>
+                        <div class="forum-description">Open-source intelligence gathering techniques and protecting your digital footprint.</div>
+                        <div class="subforum-list">
+                            <a href="#" class="subforum">OSINT Tools</a>
+                            <a href="#" class="subforum">Digital Footprint</a>
+                            <a href="#" class="subforum">Identity Protection</a>
+                        </div>
+                    </div>
+                    <div class="forum-stats">
+                        <div>70 threads</div>
+                        <div>538 posts</div>
+                    </div>
+                    <div class="forum-last-post">
+                        <a href="#" class="last-post-title">Advanced techniques for minimizing your digital footprint</a>
+                        <div class="last-post-info">
+                            <span class="last-post-user">PrivacyGuardian</span>
+                            <span>Mar 17, 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="online-users">
+            <div class="online-users-header">
+                Users Online Now (27)
+            </div>
+            <div class="user-list">
+                <a href="#" class="user admin">BlackAdmin</a>,
+                <a href="#" class="user mod">CyberMod</a>,
+                <a href="#" class="user">NightCode</a>,
+                <a href="#" class="user">ByteBreaker</a>,
+                <a href="#" class="user">SecurityWiz</a>,
+                <a href="#" class="user">KernelGuru</a>,
+                <a href="#" class="user">CryptoKnight</a>,
+                <a href="#" class="user">DataShadow</a>,
+                <a href="#" class="user">PythonMaster</a>,
+                <a href="#" class="user">MeshMaster</a>,
+                <a href="#" class="user">HexHunter</a>,
+                <a href="#" class="user">PrivacyGuardian</a>,
+                <a href="#" class="user">CodeCrafter</a>,
+                <a href="#" class="user">GhostProxy</a>,
+                <a href="#" class="user">PacketWizard</a>
+                <span>and 12 others...</span>
+            </div>
+        </div>
+
+        <footer>
+            <div class="quick-stats">
+                <div class="stats-item">
+                    <span>Threads:</span>
+                    <span>1,043</span>
+                </div>
+                <div class="stats-item">
+                    <span>Posts:</span>
+                    <span>7,873</span>
+                </div>
+                <div class="stats-item">
+                    <span>Members:</span>
+                    <span>892</span>
+                </div>
+                <div class="stats-item">
+                    <span>Newest Member:</span>
+                    <span style="color: #4CAF50;">CipherPunk</span>
+                </div>
+            </div>
+            <div>Kopernyg.us © 2025 | All rights reserved</div>
+        </footer>
+    </div>
+
+    <script>
+    // Create matrix background effect
+    const matrixCanvas = document.createElement('canvas');
+    matrixCanvas.width = window.innerWidth;
+    matrixCanvas.height = window.innerHeight;
+    document.getElementById('matrix').appendChild(matrixCanvas);
+
+    const ctx = matrixCanvas.getContext('2d');
+    const characters = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+    const columns = matrixCanvas.width / 20;
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.floor(Math.random() * -100);
+    }
+
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+        ctx.fillStyle = "#23a821";
+        ctx.font = "15px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = characters.charAt(Math.floor(Math.random() * characters.length));
+            ctx.fillText(text, i * 20, drops[i] * 20);
+
+            if (drops[i] * 20 > matrixCanvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+
+            drops[i]++;
+        }
+    }
+
+    // Create floating particles
+    function createParticles() {
+        const particleCount = 20;
+        const container = document.body;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+
+            // Random position
+            const posX = Math.random() * window.innerWidth;
+            const posY = Math.random() * window.innerHeight;
+
+            // Random size
+            const size = Math.random() * 4 + 2;
+
+            // Set styles
+            particle.style.left = posX + 'px';
+            particle.style.top = posY + 'px';
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+
+            // Random animation
+            const animDuration = Math.random() * 20 + 10;
+            const animDelay = Math.random() * 5;
+
+            particle.style.animation = `float ${animDuration}s linear ${animDelay}s infinite`;
+
+            // Add keyframes dynamically
+            const keyframes = `
+                @keyframes float {
+                    0% {
+                        transform: translate(0, 0);
+                        opacity: ${Math.random() * 0.5 + 0.3};
+                    }
+                    25% {
+                        transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+                        opacity: ${Math.random() * 0.5 + 0.5};
+                    }
+                    50% {
+                        transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 100 - 50}px);
+                        opacity: ${Math.random() * 0.5 + 0.3};
+                    }
+                    75% {
+                        transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 200 - 100}px);
+                        opacity: ${Math.random() * 0.5 + 0.5};
+                    }
+                    100% {
+                        transform: translate(0, 0);
+                        opacity: ${Math.random() * 0.5 + 0.3};
+                    }
+                }
+            `;
+
+            const styleElement = document.createElement('style');
+            styleElement.textContent = keyframes;
+            document.head.appendChild(styleElement);
+
+            container.appendChild(particle);
+        }
+    }
+
+    // Handle window resize
+    function handleResize() {
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+    }
+
+    // Add forum interaction features
+    function initForumInteraction() {
+        // Forum category collapse functionality
+        const categories = document.querySelectorAll('.forum-category');
+
+        categories.forEach(category => {
+            category.addEventListener('click', () => {
+                const forumList = category.nextElementSibling;
+                forumList.style.display = forumList.style.display === 'none' ? 'block' : 'none';
+
+                // Add a subtle animation
+                if (forumList.style.display === 'block') {
+                    forumList.style.animation = 'fadeIn 0.3s forwards';
+                }
+            });
+        });
+
+        // Add hover effects to forum items
+        const forumItems = document.querySelectorAll('.forum-item');
+
+        forumItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transition = 'background-color 0.3s';
+                item.style.backgroundColor = '#151515';
+
+                // Highlight subforum links on hover
+                const subforums = item.querySelectorAll('.subforum');
+                subforums.forEach(subforum => {
+                    subforum.style.transition = 'background-color 0.3s, color 0.3s';
+                });
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.style.backgroundColor = '#0f0f0f';
+            });
+        });
+    }
+
+    // Add notification system
+    function setupNotifications() {
+        const notificationIcons = document.querySelectorAll('.user-panel a');
+
+        notificationIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Create notification dropdown
+                const dropdown = document.createElement('div');
+                dropdown.className = 'notification-dropdown';
+                dropdown.style.position = 'absolute';
+                dropdown.style.top = '60px';
+                dropdown.style.right = '20px';
+                dropdown.style.backgroundColor = '#111';
+                dropdown.style.border = '1px solid #222';
+                dropdown.style.borderRadius = '5px';
+                dropdown.style.padding = '15px';
+                dropdown.style.minWidth = '300px';
+                dropdown.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
+                dropdown.style.zIndex = '100';
+
+                if (icon.title === 'Messages') {
+                    dropdown.innerHTML = `
+                        <h3 style="color:#4CAF50; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">Messages (3)</h3>
+                        <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #222;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <span style="font-weight:bold;">CryptoKnight</span>
+                                <span style="color:#888; font-size:0.8rem;">Today, 13:45</span>
+                            </div>
+                            <div style="color:#ccc;">Hey, have you seen the new zero-knowledge...</div>
+                        </div>
+                        <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #222;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <span style="font-weight:bold;">ByteBreaker</span>
+                                <span style="color:#888; font-size:0.8rem;">Yesterday, 19:22</span>
+                            </div>
+                            <div style="color:#ccc;">Thanks for your help with that script!...</div>
+                        </div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <span style="font-weight:bold;">BlackAdmin</span>
+                                <span style="color:#888; font-size:0.8rem;">Mar 16, 2025</span>
+                            </div>
+                            <div style="color:#ccc;">The next admin meeting is scheduled for...</div>
+                        </div>
+                        <a href="#" style="display:block; text-align:center; margin-top:15px; color:#4CAF50; text-decoration:none;">View All Messages</a>
+                    `;
+                } else if (icon.title === 'Notifications') {
+                    dropdown.innerHTML = `
+                        <h3 style="color:#4CAF50; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">Notifications (7)</h3>
+                        <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #222;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <span style="font-weight:bold;">New Reply</span>
+                                <span style="color:#888; font-size:0.8rem;">Today, 15:12</span>
+                            </div>
+                            <div style="color:#ccc;">SecurityWiz replied to your thread "Vulnerability in OpenSSH 9.5p1..."</div>
+                        </div>
+                        <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #222;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <span style="font-weight:bold;">Mention</span>
+                                <span style="color:#888; font-size:0.8rem;">Today, 11:33</span>
+                            </div>
+                            <div style="color:#ccc;">MeshMaster mentioned you in "Building your own mesh network..."</div>
+                        </div>
+                        <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #222;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <span style="font-weight:bold;">Activity</span>
+                                <span style="color:#888; font-size:0.8rem;">Yesterday, 22:17</span>
+                            </div>
+                            <div style="color:#ccc;">Your thread "Deobfuscating JavaScript malware" is trending</div>
+                        </div>
+                        <a href="#" style="display:block; text-align:center; margin-top:15px; color:#4CAF50; text-decoration:none;">View All Notifications</a>
+                    `;
+                }
+
+                // Remove existing dropdowns
+                const existingDropdowns = document.querySelectorAll('.notification-dropdown');
+                existingDropdowns.forEach(el => el.remove());
+
+                // Add to document
+                document.body.appendChild(dropdown);
+
+                // Close dropdown when clicking elsewhere
+                document.addEventListener('click', function closeDropdown(e) {
+                    if (!dropdown.contains(e.target) && e.target !== icon) {
+                        dropdown.remove();
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                });
+            });
+        });
+    }
+
+    // Search functionality
+    function setupSearch() {
+        const searchForm = document.querySelector('.search-bar');
+        const searchInput = searchForm.querySelector('input');
+        const searchButton = searchForm.querySelector('button');
+
+        searchButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const query = searchInput.value.trim();
+
+            if (query) {
+                // Create search results modal
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '1000';
+
+                const modalContent = document.createElement('div');
+                modalContent.style.width = '80%';
+                modalContent.style.maxWidth = '800px';
+                modalContent.style.maxHeight = '80%';
+                modalContent.style.overflow = 'auto';
+                modalContent.style.backgroundColor = '#111';
+                modalContent.style.borderRadius = '5px';
+                modalContent.style.padding = '20px';
+                modalContent.style.border = '1px solid #222';
+
+                modalContent.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #222; padding-bottom:10px;">
+                        <h2 style="color:#4CAF50;">Search Results: "${query}"</h2>
+                        <button id="closeModal" style="background:none; border:none; color:#ccc; cursor:pointer; font-size:1.5rem;">×</button>
+                    </div>
+                    <div style="margin-bottom:20px;">
+                        <p>Found 8 results matching your query</p>
+                    </div>
+                    <div style="display:flex; margin-bottom:15px; padding-bottom:15px; border-bottom:1px solid #222;">
+                        <div style="flex:1">
+                            <h3 style="margin-bottom:5px;"><a href="#" style="color:#4CAF50; text-decoration:none;">Vulnerability in OpenSSH 9.5p1 discovered</a></h3>
+                            <p style="color:#888; margin-bottom:5px; font-size:0.9rem;">Posted in Network Security & Pentesting by SecurityWiz</p>
+                            <p style="color:#ccc;">...the new ${query} vulnerability affects systems that haven't been patched in the last 30 days...</p>
+                        </div>
+                    </div>
+                    <div style="display:flex; margin-bottom:15px; padding-bottom:15px; border-bottom:1px solid #222;">
+                        <div style="flex:1">
+                            <h3 style="margin-bottom:5px;"><a href="#" style="color:#4CAF50; text-decoration:none;">Deobfuscating JavaScript malware - step by step</a></h3>
+                            <p style="color:#888; margin-bottom:5px; font-size:0.9rem;">Posted in Malware Analysis & Reverse Engineering by ByteBreaker</p>
+                            <p style="color:#ccc;">...methods to analyze ${query} strings in obfuscated code can reveal the true functionality...</p>
+                        </div>
+                    </div>
+                    <div style="text-align:center; margin-top:20px;">
+                        <button style="background-color:#4CAF50; color:#000; border:none; padding:10px 20px; cursor:pointer; border-radius:3px;">More Results</button>
+                    </div>
+                `;
+
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+
+                // Close modal functionality
+                document.getElementById('closeModal').addEventListener('click', () => {
+                    modal.remove();
+                });
+
+                // Close when clicking outside
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            }
+        });
+    }
+
+    // Theme switching functionality
+    function setupThemeSwitcher() {
+        // Create a theme switcher button
+        const themeSwitcher = document.createElement('div');
+        themeSwitcher.style.position = 'fixed';
+        themeSwitcher.style.bottom = '20px';
+        themeSwitcher.style.right = '20px';
+        themeSwitcher.style.backgroundColor = '#111';
+        themeSwitcher.style.color = '#4CAF50';
+        themeSwitcher.style.width = '40px';
+        themeSwitcher.style.height = '40px';
+        themeSwitcher.style.borderRadius = '50%';
+        themeSwitcher.style.display = 'flex';
+        themeSwitcher.style.justifyContent = 'center';
+        themeSwitcher.style.alignItems = 'center';
+        themeSwitcher.style.cursor = 'pointer';
+        themeSwitcher.style.boxShadow = '0 0 10px rgba(76, 175, 80, 0.3)';
+        themeSwitcher.style.zIndex = '99';
+        themeSwitcher.style.fontSize = '1.2rem';
+        themeSwitcher.innerHTML = '🌙';
+
+        // Available themes
+        const themes = [
+            {
+                name: 'Dark Matrix',
+                background: '#0a0a0a',
+                accent: '#4CAF50',
+                text: '#e0e0e0',
+                secondary: '#111'
+            },
+            {
+                name: 'Midnight Blue',
+                background: '#0a192f',
+                accent: '#64ffda',
+                text: '#e6f1ff',
+                secondary: '#112240'
+            },
+            {
+                name: 'Neon Punk',
+                background: '#0f0f0f',
+                accent: '#ff00ff',
+                text: '#f0f0f0',
+                secondary: '#1a1a1a'
+            },
+            {
+                name: 'Cyber Red',
+                background: '#0a0a0a',
+                accent: '#ff4655',
+                text: '#f0f0f0',
+                secondary: '#121212'
+            }
+        ];
+
+        let currentTheme = 0;
+
+        themeSwitcher.addEventListener('click', () => {
+            // Cycle through themes
+            currentTheme = (currentTheme + 1) % themes.length;
+            const theme = themes[currentTheme];
+
+            // Apply theme
+            document.body.style.backgroundColor = theme.background;
+            document.body.style.color = theme.text;
+
+            // Update elements
+            document.querySelectorAll('.forum-category').forEach(el => {
+                el.style.backgroundColor = theme.secondary;
+                el.style.color = theme.accent;
+            });
+
+            document.querySelectorAll('.subforum').forEach(el => {
+                el.style.backgroundColor = theme.secondary;
+            });
+
+            document.querySelectorAll('.forum-item').forEach(el => {
+                el.style.backgroundColor = theme.background;
+                el.style.borderBottomColor = theme.secondary;
+            });
+
+            document.querySelectorAll('a').forEach(el => {
+                if (el.classList.contains('forum-title')) {
+                    el.style.color = theme.text;
+                }
+            });
+
+            document.querySelectorAll('.logo, .last-post-user, .online-users-header').forEach(el => {
+                el.style.color = theme.accent;
+            });
+
+            // Update icon
+            const icons = ['🌙', '🌊', '🌈', '🔥'];
+            themeSwitcher.innerHTML = icons[currentTheme];
+            themeSwitcher.style.color = theme.accent;
+
+            // Show theme notification
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '70px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = theme.secondary;
+            notification.style.color = theme.accent;
+            notification.style.padding = '8px 15px';
+            notification.style.borderRadius = '5px';
+            notification.style.boxShadow = `0 0 10px ${theme.accent}33`;
+            notification.style.zIndex = '100';
+            notification.textContent = `Theme: ${theme.name}`;
+
+            document.body.appendChild(notification);
+
+            // Remove notification after 2 seconds
+            setTimeout(() => {
+                notification.style.transition = 'opacity 0.5s';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 2000);
+        });
+
+        document.body.appendChild(themeSwitcher);
+    }
+
+    // Initialize everything
+    window.addEventListener('load', () => {
+        // Initialize matrix background
+        setInterval(drawMatrix, 50);
+
+        // Initialize particles
+        createParticles();
+
+        // Handle window resizing
+        window.addEventListener('resize', handleResize);
+
+        // Initialize forum interactions
+        initForumInteraction();
+
+        // Setup notifications
+        setupNotifications();
+
+        // Setup search
+        setupSearch();
+
+        // Setup theme switcher
+        setupThemeSwitcher();
+    });
+    </script>
+</body>
