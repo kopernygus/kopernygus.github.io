@@ -84,18 +84,18 @@
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 2rem;
-            color: #4CAF50;
+            color: #FF6B00;
             animation: pulse 4s infinite;
         }
         
         @keyframes pulse {
             0%, 100% {
                 opacity: 0.8;
-                text-shadow: 0 0 15px #4CAF50;
+                text-shadow: 0 0 15px #FF6B00;
             }
             50% {
                 opacity: 1;
-                text-shadow: 0 0 30px #4CAF50, 0 0 40px #4CAF50;
+                text-shadow: 0 0 30px #FF6B00, 0 0 40px #FF6B00;
             }
         }
         
@@ -183,7 +183,7 @@
             ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
             ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
             
-            ctx.fillStyle = "#23a821";
+            ctx.fillStyle = "#FF6B00";
             ctx.font = "15px monospace";
             
             for (let i = 0; i < drops.length; i++) {
