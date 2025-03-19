@@ -26,7 +26,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.07;
+            opacity: 0.18;
         }
 
         .container {
@@ -52,7 +52,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+            background: linear-gradient(90deg, transparent, #FF6B00, transparent);
             animation: lineGlow 5s infinite;
         }
 
@@ -61,8 +61,8 @@
             letter-spacing: 6px;
             font-weight: bold;
             text-transform: uppercase;
-            color: #4CAF50;
-            text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+            color: #FF6B00;
+            text-shadow: 0 0 15px #FF6B0080;
         }
 
         .user-panel {
@@ -79,9 +79,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #4CAF50;
+            color: #FF6B00;
             font-weight: bold;
-            border: 2px solid #4CAF50;
+            border: 2px solid #FF6B00;
         }
 
         .username {
@@ -96,7 +96,7 @@
             left: 0;
             width: 100%;
             height: 1px;
-            background-color: #4CAF50;
+            background-color: #FF6B00;
         }
 
         nav {
@@ -124,13 +124,13 @@
 
         .nav-links a:hover {
             background-color: #1a1a1a;
-            color: #4CAF50;
+            color: #FF6B00;
         }
 
         .nav-links a.active {
             background-color: #1a1a1a;
-            color: #4CAF50;
-            border-left: 2px solid #4CAF50;
+            color: #FF6B00;
+            border-left: 2px solid #FF6B00;
         }
 
         .search-bar {
@@ -150,7 +150,7 @@
 
         .search-bar button {
             padding: 10px 15px;
-            background-color: #4CAF50;
+            background-color: #FF6B00;
             color: #000;
             border: none;
             border-radius: 0 5px 5px 0;
@@ -161,7 +161,7 @@
         }
 
         .search-bar button:hover {
-            background-color: #45a049;
+            background-color: #FF6B00;
         }
 
         .forum-container {
@@ -173,7 +173,7 @@
             padding: 12px 15px;
             border-radius: 5px 5px 0 0;
             font-weight: bold;
-            color: #4CAF50;
+            color: #FF6B00;
             letter-spacing: 1px;
             border: 1px solid #222;
             border-bottom: none;
@@ -217,7 +217,7 @@
             align-items: center;
             justify-content: center;
             margin-right: 15px;
-            color: #4CAF50;
+            color: #FF6B00;
             font-size: 1.2rem;
         }
 
@@ -234,7 +234,7 @@
         }
 
         .forum-title:hover {
-            color: #4CAF50;
+            color: #FF6B00;
         }
 
         .forum-description {
@@ -261,7 +261,7 @@
 
         .subforum:hover {
             background-color: #222;
-            color: #4CAF50;
+            color: #FF6B00;
         }
 
         .forum-stats {
@@ -295,7 +295,7 @@
         }
 
         .last-post-title:hover {
-            color: #4CAF50;
+            color: #FF6B00;
         }
 
         .last-post-info {
@@ -304,7 +304,7 @@
         }
 
         .last-post-user {
-            color: #4CAF50;
+            color: #FF6B00;
         }
 
         .online-users {
@@ -316,7 +316,7 @@
         }
 
         .online-users-header {
-            color: #4CAF50;
+            color: #FF6B00;
             font-weight: bold;
             margin-bottom: 10px;
             border-bottom: 1px solid #1a1a1a;
@@ -335,7 +335,7 @@
         }
 
         .user:hover {
-            color: #4CAF50;
+            color: #FF6B00;
             text-decoration: underline;
         }
 
@@ -364,7 +364,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+            background: linear-gradient(90deg, transparent, #FF6B00, transparent);
             animation: lineGlow 5s infinite alternate-reverse;
         }
 
@@ -382,7 +382,7 @@
         }
 
         .notification-badge {
-            background-color: #4CAF50;
+            background-color: #FF6B00;
             color: #000;
             border-radius: 50%;
             width: 20px;
@@ -397,7 +397,7 @@
 
         .particle {
             position: fixed;
-            background-color: rgba(76, 175, 80, 0.3);
+            background-color: #FF6B0050;
             border-radius: 50%;
             z-index: -1;
         }
@@ -784,7 +784,7 @@
         ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
         ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
-        ctx.fillStyle = "#23a821";
+        ctx.fillStyle = "#FF6B00";
         ctx.font = "15px monospace";
 
         for (let i = 0; i < drops.length; i++) {
